@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class WeatherUtilServiceTest {
 
     private static final String ERROR_MESSAGE = "Error: Please enter a valid " +
-    "city, state, province, or zip code. \n(Only one at a time)";
+    "city, state, province, or zip code.";
 
     @BeforeEach
     void clearCache() throws Exception {
@@ -25,10 +25,31 @@ class WeatherUtilServiceTest {
     }
 
     @Test
-    void testGetWeatherReturnsData() {
-        String weatherData = WeatherUtilService.retrieveWeatherByLocation("London");
+    void testGetWeatherReturnsDataForZip() {
+        String weatherData = WeatherUtilService.retrieveWeatherByLocation("85213");
         assertNotNull(weatherData);
-        assertFalse(weatherData.contains("Error"), "Expected valid weather data, but got an error.");
+        assertFalse(weatherData.contains("Error"), "Expected valid weather data for zip, " +
+        "but got an error.");
+    }
+
+    @Test
+    void testGetWeatherReturnsDataForCity() {
+        String weatherData = WeatherUtilService.retrieveWeatherByLocation("Phoenix");
+        assertNotNull(weatherData);
+        assertFalse(weatherData.contains("Error"), "Expected valid weather data for city, " +
+        "but got an error.");
+    }
+
+    @Test
+    void testGetWeatherReturnsDataForStateOrProvince() {
+        String weatherData1 = WeatherUtilService.retrieveWeatherByLocation("Arizona");
+        String weatherData2 = WeatherUtilService.retrieveWeatherByLocation("Ontario");
+        assertNotNull(weatherData1);
+        assertNotNull(weatherData2);
+        assertFalse(weatherData1.contains("Error"), "Expected valid weather data for state, " + 
+        "but got an error.");
+        assertFalse(weatherData2.contains("Error"), "Expected valid weather data for province, " + 
+        "but got an error.");
     }
 
     @Test

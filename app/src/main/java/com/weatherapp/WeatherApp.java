@@ -19,7 +19,12 @@ import javafx.stage.Stage;
 public class WeatherApp extends Application {
     private static final String LOCATION_LABEL_TEXT = "Provide a location to view its weather forecast";
     private Label locationLabel;
-    private TextField locationInput;
+    private TextField streetInput;
+    private TextField cityInput;
+    private TextField stateInput;
+    private TextField zipInput;
+    private Button getForecastButton;
+    private Button clearInputButton;
     private Label weatherInfoLabel;
 
     @Override
@@ -29,13 +34,22 @@ public class WeatherApp extends Application {
         locationLabel = new Label(LOCATION_LABEL_TEXT);
         locationLabel.setFont(new Font(18));
 
-        locationInput = new TextField();
-        locationInput.setPromptText("Location");
+        streetInput = new TextField();
+        streetInput.setPromptText("Street Address (Optional)");
 
-        Button getForecastButton = new Button("Get Forecast");
+        cityInput = new TextField();
+        cityInput.setPromptText("City");
+
+        stateInput = new TextField();
+        stateInput.setPromptText("State/Province");
+
+        zipInput = new TextField();
+        zipInput.setPromptText("ZIP Code");
+
+        getForecastButton = new Button("Get Forecast");
         getForecastButton.setOnAction(e -> fetchWeather());
 
-        Button clearInputButton = new Button("Clear");
+        clearInputButton = new Button("Clear");
         clearInputButton.setOnAction(e -> clear());
 
         weatherInfoLabel = new Label("");
@@ -43,7 +57,8 @@ public class WeatherApp extends Application {
 
         VBox layout = new VBox(20);
         layout.setPadding(new Insets(30));
-        layout.getChildren().addAll(locationLabel, locationInput, getForecastButton, clearInputButton, weatherInfoLabel);
+        layout.getChildren().addAll(locationLabel, streetInput, cityInput,
+        stateInput, zipInput, getForecastButton, clearInputButton, weatherInfoLabel);
 
         Scene scene = new Scene(layout, 800, 600);
         stage.setScene(scene);
@@ -51,10 +66,16 @@ public class WeatherApp extends Application {
     }
 
     private void fetchWeather() {
-        String location = locationInput.getText().trim();
+        String location = zipInput.getText().trim();
         if (location.isEmpty()) {
-            weatherInfoLabel.setText("Please enter a valid location.");
-            return;
+            location = cityInput.getText().trim();
+            if (location.isEmpty()) {
+                location = stateInput.getText().trim();
+                if (location.isEmpty()) {
+                    weatherInfoLabel.setText("Please enter a valid location.");
+                    return;
+                }
+            }
         }
 
         String weatherInfo = WeatherUtilService.retrieveWeatherByLocation(location);
@@ -63,7 +84,10 @@ public class WeatherApp extends Application {
     }
 
     private void clear() {
-        locationInput.clear();
+        streetInput.clear();;
+        cityInput.clear();
+        stateInput.clear();
+        zipInput.clear();
         weatherInfoLabel.setText("");
     }
 

@@ -18,10 +18,10 @@ import org.json.JSONObject;
 public final class WeatherUtilService {
 	private static final String API_KEY = "2f43f62b1189f67ce631a9e5b5152179";
     private static final String WEATHER_API = "https://api.openweathermap.org/data/2.5/weather?q=";
-    private static final String EXCEPTION_MESSAGE = "WeatherUtilService is a utility class and " +
+    private static final String EXCEPTION_CONSTRUCTOR_MESSAGE = "WeatherUtilService is a utility class and " +
     "cannot be instantiated.";
     private static final String ERROR_MESSAGE = "Error: Please enter a valid " +
-    "city, state, province, or zip code. \n(Only one at a time)";
+    "city, state, province, or zip code.";
     private static final ConcurrentHashMap<String, WeatherData> cache = new ConcurrentHashMap<>();
     private static final long CACHE_TIMEOUT = 30 * 60 * 1000; // 30 minutes in milliseconds
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -32,7 +32,7 @@ public final class WeatherUtilService {
     }
 
     private WeatherUtilService () {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        throw new UnsupportedOperationException(EXCEPTION_CONSTRUCTOR_MESSAGE);
     }
 
     /**
