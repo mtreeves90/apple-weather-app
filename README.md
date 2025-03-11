@@ -20,4 +20,10 @@ cd apple-weather-app
 Run the following commands:
 gradle build --no-configuration-cache
 gradle run --no-configuration-cache
-(For Testing) gradle test
+
+### **Running Tests**
+gradle clean test
+
+### **View Test Reports**
+open app/build/reports/tests/test/index.html  # Mac/Linux
+start app/build/reports/tests/test/index.html  # Windows

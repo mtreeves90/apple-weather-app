@@ -33,3 +33,15 @@ tasks.withType(JavaExec).configureEach {
         "--add-modules", "javafx.controls,javafx.fxml"
     ]
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.addAll(["-Xlint:unchecked", "-Xlint:deprecation"])
+}
+
+test {
+    useJUnitPlatform()
+    outputs.upToDateWhen { false }
+    testLogging {
+        events "passed", "skipped", "failed", "standard_out", "standard_error"
+    }
+}
